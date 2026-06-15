@@ -1,7 +1,7 @@
 'use client'
 
 import { useRef, useState } from 'react'
-import { MODELS } from '@/lib/uiConfig'
+import { DEFAULT_MODEL_ID } from '@/lib/uiConfig'
 import { streamChat } from '@/lib/chatClient'
 import type { Effort, UIMessage } from '@/lib/types'
 import Header from '@/components/Header'
@@ -9,7 +9,7 @@ import MessageList from '@/components/MessageList'
 import ChatInput from '@/components/ChatInput'
 
 export default function Page() {
-  const [model, setModel] = useState<string>('gemini-2.5-pro')
+  const [model, setModel] = useState<string>(DEFAULT_MODEL_ID)
   const [effort, setEffort] = useState<Effort>('medium')
   const [messages, setMessages] = useState<UIMessage[]>([])
   const [input, setInput] = useState('')

@@ -5,7 +5,7 @@
 //  API key (from .env.local, server-only) and streams the model's reply back
 //  as newline-delimited JSON (NDJSON): one {"type","text"} object per line.
 // ============================================================================
-import { getModel } from '@/lib/models'
+import { getFallbackModels, getModel } from '@/lib/models'
 import { streamChat } from '@/lib/providers'
 import type { ChatMessage, Effort, Provider } from '@/lib/types'
 
@@ -25,6 +25,44 @@ function jsonError(message: string, status = 400): Response {
     status,
     headers: { 'Content-Type': 'application/json' },
   })
+}
+
+function errorMessage(err: unknown): string {
+  return (
+    (err as { error?: { message?: string }; message?: string })?.error?.message ||
+    (err as Error)?.message ||
+    'Unexpected server error'
+  )
+}
+
+function isRateLimitError(err: unknown): boolean {
+  const e = err as {
+    status?: number
+    code?: string
+    type?: string
+    error?: { code?: string; message?: string; type?: string }
+    message?: string
+  }
+  const haystack = [
+    e.status,
+    e.code,
+    e.type,
+    e.error?.code,
+    e.error?.type,
+    e.error?.message,
+    e.message,
+  ]
+    .filter(Boolean)
+    .join(' ')
+    .toLowerCase()
+
+  return (
+    e.status === 429 ||
+    haystack.includes('rate limit') ||
+    haystack.includes('quota') ||
+    haystack.includes('resource_exhausted') ||
+    haystack.includes('too many requests')
+  )
 }
 
 interface ChatRequest {
@@ -61,25 +99,44 @@ export async function POST(req: Request): Promise<Response> {
   const stream = new ReadableStream<Uint8Array>({
     async start(controller) {
       const send = (obj: unknown) => controller.enqueue(encoder.encode(JSON.stringify(obj) + '\n'))
+      const modelsToTry = [modelConfig, ...getFallbackModels(modelConfig)]
+      let emittedText = false
+      let lastError: unknown
+
       try {
-        for await (const text of streamChat({
-          modelConfig,
-          messages,
-          effort,
-          signal: req.signal, // aborts when the browser hits "Stop"
-        })) {
-          send({ type: 'delta', text })
+        for (const currentModel of modelsToTry) {
+          try {
+            for await (const text of streamChat({
+              modelConfig: currentModel,
+              messages,
+              effort,
+              signal: req.signal, // aborts when the browser hits "Stop"
+            })) {
+              emittedText = true
+              send({ type: 'delta', text })
+            }
+            send({ type: 'done' })
+            return
+          } catch (err) {
+            lastError = err
+            if (req.signal.aborted) return
+
+            const canTryFallback =
+              !emittedText && currentModel.provider === 'gemini' && isRateLimitError(err)
+            if (!canTryFallback) break
+
+            console.warn(
+              `[chat] ${currentModel.id} hit a Gemini quota limit; trying fallback model.`,
+            )
+          }
         }
-        send({ type: 'done' })
+
+        throw lastError ?? new Error('Unexpected server error')
       } catch (err) {
         // If the client aborted, just close quietly.
         if (!req.signal.aborted) {
           console.error('[chat] error:', err)
-          const message =
-            (err as { error?: { message?: string }; message?: string })?.error?.message ||
-            (err as Error)?.message ||
-            'Unexpected server error'
-          send({ type: 'error', error: message })
+          send({ type: 'error', error: errorMessage(err) })
         }
       } finally {
         controller.close()

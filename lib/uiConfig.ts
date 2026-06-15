@@ -11,7 +11,11 @@ export interface UIModel {
   label: string
 }
 
+export const DEFAULT_MODEL_ID = 'gemini-3.5-flash'
+
 export const MODELS: UIModel[] = [
+  { id: DEFAULT_MODEL_ID, label: 'Gemini 3.5 Flash' },
+  { id: 'gemini-3.1-flash-lite', label: 'Gemini 3.1 Flash-Lite' },
   { id: 'gpt-5', label: 'GPT-5' },
   { id: 'claude-opus-4-5', label: 'Claude Opus 4.5' },
   { id: 'claude-sonnet-4-5', label: 'Claude Sonnet 4.5' },

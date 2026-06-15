@@ -7,7 +7,7 @@ A polished, **ChatGPT-style multi-model chat app** built with **Next.js (App Rou
 ## ✨ Features
 
 - **Streaming chat** — assistant replies appear token-by-token, with a **Stop** button.
-- **4 models, one dropdown** — GPT-5, Claude Opus 4.5, Claude Sonnet 4.5, Gemini 2.5 Pro.
+- **6 models, one dropdown** — Gemini 3.5 Flash, Gemini 3.1 Flash-Lite, GPT-5, Claude Opus 4.5, Claude Sonnet 4.5, Gemini 2.5 Pro.
 - **Reasoning effort** selector (مستوى التفكير): Low / Medium / High, mapped to each provider's reasoning parameter.
 - **Vision** — attach one or more images and ask about them (sent as base64 to vision-capable models).
 - **Speech-to-text** — microphone button using the browser's Web Speech API (Arabic `ar-SA` by default, switchable to English), with a pulsing recording indicator.
@@ -60,7 +60,7 @@ Then open **`.env.local`** and paste your keys:
 ```
 OPENAI_API_KEY=sk-...        # for GPT-5
 ANTHROPIC_API_KEY=sk-ant-... # for Claude Opus 4.5 & Sonnet 4.5
-GEMINI_API_KEY=...           # for Gemini 2.5 Pro
+GEMINI_API_KEY=...           # for Gemini 3.5 Flash, Flash-Lite & 2.5 Pro
 ```
 
 | Key | Get it from |
@@ -91,6 +91,7 @@ npm run start
 - **Add / remove a model:** edit the array in `lib/models.ts` (server: provider + real API model id) and `lib/uiConfig.ts` (the label shown in the dropdown). Keep the `id`s in sync.
 - **Change the theme:** the brand colors are CSS variables in the `@theme` block of `app/globals.css` (`--color-base`, `--color-accent`, …).
 - **Reasoning effort mapping:** see `lib/providers.ts` — OpenAI/Gemini use `reasoning_effort`; Anthropic Opus 4.5 uses `output_config.effort` while Sonnet 4.5 uses an extended-thinking `budget_tokens` (the effort param isn't supported on Sonnet 4.5).
+- **Gemini free-tier resilience:** the app defaults to Gemini 3.5 Flash. If Gemini 2.5 Pro or 3.5 Flash hits a quota/rate-limit error before any text streams, the server retries with the configured Gemini fallback model.
 
 ## 📝 Notes for the demo
 

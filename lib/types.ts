@@ -25,6 +25,8 @@ export interface ModelConfig {
   provider: Provider
   apiModel: string
   vision: boolean
+  /** Ordered model ids to retry when this model is temporarily rate-limited. */
+  fallbackModelIds?: string[]
   /** How the reasoning-effort selector maps onto Anthropic models. */
   effort?: 'native' | 'thinking'
 }
