@@ -29,7 +29,7 @@ function openaiClient(): OpenAI {
 function geminiClient(): OpenAI {
   return (_gemini ??= new OpenAI({
     apiKey: process.env.GEMINI_API_KEY,
-    baseURL: 'https://generativelanguage.googleapis.com/v1beta/openai/',
+    baseURL: process.env.GEMINI_BASE_URL,
   }))
 }
 function anthropicClient(): Anthropic {
@@ -100,9 +100,8 @@ async function* streamOpenAICompatible(
       model,
       messages: toOpenAIMessages(messages),
       stream: true,
-      reasoning_effort: effort, // 'low' | 'medium' | 'high'
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } as any,
+      reasoning_effort: effort,
+    } as unknown as OpenAI.Chat.ChatCompletionCreateParamsStreaming,
     { signal },
   )) as unknown as AsyncIterable<{ choices?: Array<{ delta?: { content?: string } }> }>
 
@@ -118,8 +117,6 @@ async function* streamAnthropic(
   effort: Effort,
   signal: AbortSignal,
 ): AsyncGenerator<string> {
-  // Built loosely: `output_config` / `thinking` are newer fields that may not be
-  // in every SDK's static types, so we assemble the body as a plain object.
   const body: Record<string, unknown> = {
     model: modelConfig.apiModel,
     max_tokens: 16000,
@@ -127,17 +124,14 @@ async function* streamAnthropic(
     messages: toAnthropicMessages(messages),
   }
 
-  // Apply the reasoning-effort selector. Opus 4.5 supports the native effort
-  // parameter; Sonnet 4.5 does not, so we use an extended-thinking budget there.
   if (modelConfig.effort === 'native') {
-    body.output_config = { effort } // 'low' | 'medium' | 'high'
+    body.output_config = { effort }
   } else if (modelConfig.effort === 'thinking') {
     body.thinking = { type: 'enabled', budget_tokens: THINKING_BUDGET[effort] }
   }
 
   const stream = anthropicClient().messages.stream(
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    body as any,
+    body as unknown as Anthropic.MessageCreateParamsStreaming,
     { signal },
   ) as AsyncIterable<unknown>
 
