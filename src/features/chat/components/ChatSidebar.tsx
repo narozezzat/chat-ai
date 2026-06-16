@@ -3,6 +3,7 @@
 import * as React from 'react'
 import { Plus, MessageSquare, Trash2, X, Sparkles, AlertCircle } from 'lucide-react'
 import { Button } from '@/components/ui/button'
+import { ConfirmDialog } from '@/components/ui/ConfirmDialog'
 import { ModelSelector } from '@/features/chat/components/ModelSelector'
 import { EffortSelector } from '@/features/chat/components/EffortSelector'
 import { useChatStore } from '@/features/chat/hooks/useChatStore'
@@ -28,6 +29,8 @@ export function ChatSidebar({ isOpen, onClose, onNewChat }: ChatSidebarProps): R
     updateSessionEffort,
     clearAll,
   } = useChatStore()
+
+  const [clearDialogOpen, setClearDialogOpen] = React.useState(false)
 
   const activeSession = sessions.find((s) => s.id === activeSessionId) || sessions[0]
 
@@ -154,11 +157,7 @@ export function ChatSidebar({ isOpen, onClose, onNewChat }: ChatSidebarProps): R
         <div className="mt-auto border-t border-border/40 p-4 shrink-0 flex items-center justify-between gap-2">
           <Button
             variant="ghost"
-            onClick={() => {
-              if (confirm(t('common.clearConfirm'))) {
-                clearAll()
-              }
-            }}
+            onClick={() => setClearDialogOpen(true)}
             className="flex items-center gap-1 h-auto p-1 text-[10px] text-muted-foreground/50 hover:bg-transparent hover:text-destructive transition-colors [&_svg]:size-3"
           >
             <AlertCircle className="h-3 w-3" aria-hidden="true" />
@@ -166,6 +165,17 @@ export function ChatSidebar({ isOpen, onClose, onNewChat }: ChatSidebarProps): R
           </Button>
           <div className="text-[10px] text-muted-foreground/35 font-mono">v1.2.0</div>
         </div>
+
+        <ConfirmDialog
+          open={clearDialogOpen}
+          onOpenChange={setClearDialogOpen}
+          title={t('common.clearConfirmTitle')}
+          description={t('common.clearConfirmDescription')}
+          confirmLabel={t('common.clearConfirmAction')}
+          cancelLabel={t('common.clearConfirmCancel')}
+          onConfirm={clearAll}
+          variant="destructive"
+        />
       </div>
     </>
   )
