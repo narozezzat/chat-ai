@@ -39,14 +39,13 @@ export function ChatSidebar({ isOpen, onClose, onNewChat }: ChatSidebarProps): R
       ) : null}
 
       <div
-        className={`fixed inset-y-0 start-0 z-50 flex w-72 flex-col border-e border-border/60 bg-card/85 backdrop-blur-xl transition-transform duration-300 md:relative md:translate-x-0 ${
-          isOpen ? 'translate-x-0' : 'translate-x-full md:translate-x-0'
-        }`}
+        className={`fixed inset-y-0 inset-s-0 z-50 flex w-72 flex-col border-e border-border/60 bg-card/85 backdrop-blur-xl transition-transform duration-300 md:relative md:translate-x-0 ${isOpen ? 'translate-x-0' : 'translate-x-full md:translate-x-0'
+          }`}
       >
         {/* Sidebar Header branding */}
         <div className="flex h-16 items-center justify-between px-6 border-b border-border/40 shrink-0">
           <div className="flex items-center gap-2.5">
-            <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-gradient-to-br from-primary to-purple-600 shadow-md">
+            <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-linear-to-br from-primary to-purple-600 shadow-md">
               <Sparkles className="h-4 w-4 text-white" aria-hidden="true" />
             </div>
             <span className="text-base font-bold tracking-tight text-foreground">AI Studio</span>
@@ -88,11 +87,10 @@ export function ChatSidebar({ isOpen, onClose, onNewChat }: ChatSidebarProps): R
                     initial={{ opacity: 0, x: -10 }}
                     animate={{ opacity: 1, x: 0 }}
                     exit={{ opacity: 0, x: -10 }}
-                    className={`group flex items-center justify-between gap-1.5 rounded-xl px-3 py-2.5 text-xs font-medium cursor-pointer transition-all ${
-                      active
+                    className={`group flex items-center justify-between gap-1.5 rounded-xl px-3 py-2.5 text-xs font-medium cursor-pointer transition-all ${active
                         ? 'bg-primary/15 text-primary'
                         : 'text-muted-foreground hover:bg-muted/40 hover:text-foreground'
-                    }`}
+                      }`}
                     onClick={() => {
                       selectSession(s.id)
                       onClose()

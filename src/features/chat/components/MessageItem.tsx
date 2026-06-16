@@ -19,7 +19,7 @@ function Avatar({ isUser }: { isUser: boolean }): React.JSX.Element {
         "mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-full shadow",
         isUser
           ? "bg-secondary text-primary"
-          : "bg-gradient-to-br from-primary to-purple-600 text-white"
+          : "bg-linear-to-br from-primary to-purple-600 text-white"
       )}
     >
       {isUser ? (

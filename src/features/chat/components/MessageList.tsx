@@ -21,7 +21,7 @@ const SUGGESTIONS = [
 function EmptyState({ onSuggest }: { onSuggest: (text: string) => void }): React.JSX.Element {
   return (
     <div className="mx-auto flex h-full w-full max-w-2xl flex-col items-center justify-center px-4 py-12 text-center md:py-0">
-      <div className="mb-6 flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-primary to-purple-600 shadow-xl shadow-primary/20">
+      <div className="mb-6 flex h-14 w-14 items-center justify-center rounded-2xl bg-linear-to-br from-primary to-purple-600 shadow-xl shadow-primary/20">
         <Sparkles className="h-6 w-6 text-white" aria-hidden="true" />
       </div>
       <h1 className="text-xl font-bold tracking-tight sm:text-2xl">أهلاً بك في استوديو الدردشة</h1>

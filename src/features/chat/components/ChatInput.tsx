@@ -92,7 +92,7 @@ export function ChatInput({ value, onChange, onSend, onStop, isStreaming }: Chat
                 <img src={src} alt="" className="h-16 w-16 rounded-lg border border-border object-cover" />
                 <button
                   onClick={() => setImages((cur) => cur.filter((_, idx) => idx !== i))}
-                  className="absolute -end-1.5 -top-1.5 flex h-5 w-5 items-center justify-center rounded-full bg-background text-muted-foreground shadow ring-1 ring-border transition hover:text-foreground"
+                  className="absolute -inset-e-1.5 -top-1.5 flex h-5 w-5 items-center justify-center rounded-full bg-background text-muted-foreground shadow ring-1 ring-border transition hover:text-foreground"
                   aria-label="إزالة الصورة"
                 >
                   <X className="h-3 w-3" />
@@ -138,11 +138,10 @@ export function ChatInput({ value, onChange, onSend, onStop, isStreaming }: Chat
                   <button
                     onClick={toggleMic}
                     title={listening ? 'إيقاف التسجيل' : 'تحدّث'}
-                    className={`flex h-9 w-9 items-center justify-center rounded-xl transition ${
-                      listening
+                    className={`flex h-9 w-9 items-center justify-center rounded-xl transition ${listening
                         ? 'bg-red-500/15 text-red-400'
                         : 'text-muted-foreground hover:bg-muted hover:text-foreground'
-                    }`}
+                      }`}
                     aria-label={listening ? "Stop voice recognition" : "Start voice recognition"}
                   >
                     {listening ? (
