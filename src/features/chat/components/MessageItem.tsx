@@ -7,6 +7,7 @@ import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import { motion } from 'framer-motion'
 import { useTranslations } from 'next-intl'
+import { ImageLightbox } from '@/components/ui/ImageLightbox'
 
 interface MessageItemProps {
   role: 'user' | 'assistant'
@@ -49,6 +50,10 @@ export function MessageItem({ role, content, images, streaming }: MessageItemPro
   const t = useTranslations()
   const isUser = role === 'user'
   const [copied, setCopied] = React.useState(false)
+  const [lightbox, setLightbox] = React.useState<{ open: boolean; src: string }>({ open: false, src: '' })
+
+  const openLightbox = (src: string): void => setLightbox({ open: true, src })
+  const closeLightbox = (): void => setLightbox((prev) => ({ ...prev, open: false }))
 
   const copy = async (): Promise<void> => {
     try {
@@ -81,8 +86,22 @@ export function MessageItem({ role, content, images, streaming }: MessageItemPro
           {images && images.length > 0 ? (
             <div className="mb-2 flex flex-wrap gap-2">
               {images.map((src, i) => (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img key={i} src={src} alt="" className="h-28 w-28 rounded-lg object-cover border border-border/80 shadow-xs" />
+                <button
+                  key={i}
+                  type="button"
+                  onClick={() => openLightbox(src)}
+                  className="group/thumb relative overflow-hidden rounded-lg border border-border/80 shadow-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                  aria-label={t('image.openPreview')}
+                >
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={src}
+                    alt=""
+                    className="h-28 w-28 object-cover transition-transform duration-200 group-hover/thumb:scale-105"
+                  />
+                  {/* Hover overlay hint */}
+                  <span className="absolute inset-0 flex items-center justify-center bg-black/0 transition-colors duration-200 group-hover/thumb:bg-black/25" aria-hidden="true" />
+                </button>
               ))}
             </div>
           ) : null}
@@ -123,6 +142,9 @@ export function MessageItem({ role, content, images, streaming }: MessageItemPro
       </div>
 
       {isUser ? <Avatar isUser={true} /> : null}
+
+      {/* Lightbox — rendered at message level so it is outside the bubble flow */}
+      <ImageLightbox src={lightbox.src} open={lightbox.open} onClose={closeLightbox} />
     </motion.div>
   )
 }

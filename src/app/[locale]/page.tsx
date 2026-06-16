@@ -130,25 +130,31 @@ export default function RootPage(): React.JSX.Element {
       {/* Main chat window viewport */}
       <div className="flex flex-1 flex-col overflow-hidden relative">
         {/* Top Header navbar */}
-        <header className="sticky top-0 z-20 flex h-16 w-full items-center justify-between border-b border-border/40 bg-background/60 backdrop-blur-md px-4 shrink-0">
-          <div className="flex items-center gap-2.5">
+        <header className="sticky top-0 z-20 flex h-14 w-full items-center justify-between border-b border-border/40 bg-background/60 backdrop-blur-md px-3 sm:px-4 shrink-0 gap-2">
+          {/* Left: hamburger + session title */}
+          <div className="flex min-w-0 flex-1 items-center gap-2">
             <Button
               variant="ghost"
               size="icon"
-              className="flex h-9 w-9 items-center justify-center rounded-lg bg-secondary/40 border border-border hover:bg-secondary/80 md:hidden"
+              className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-secondary/40 border border-border hover:bg-secondary/80 md:hidden"
               onClick={() => setSidebarOpen(true)}
               aria-label={t('common.openSidebar')}
             >
               <Menu className="h-5 w-5" aria-hidden="true" />
             </Button>
-            <div className="flex items-center gap-2">
-              <span dir="auto" className="text-sm font-semibold tracking-tight text-foreground md:text-base">
-                {getDisplayTitle(activeSession?.title)}
-              </span>
-            </div>
+
+            {/* Session title — truncates when there is not enough room */}
+            <span
+              dir="auto"
+              className="truncate text-sm font-semibold tracking-tight text-foreground"
+              title={getDisplayTitle(activeSession?.title)}
+            >
+              {getDisplayTitle(activeSession?.title)}
+            </span>
           </div>
 
-          <div className="flex items-center gap-2">
+          {/* Right: controls — never shrink */}
+          <div className="flex shrink-0 items-center gap-1.5 sm:gap-2">
             <LanguageSwitcher />
             <ThemeToggle />
             <Button

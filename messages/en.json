@@ -48,5 +48,12 @@
     "copy": "Copy",
     "copied": "Copied",
     "copyAria": "Copy message"
+  },
+  "image": {
+    "preview": "Image preview",
+    "download": "Download image",
+    "close": "Close",
+    "openPreview": "Open full-size preview",
+    "loadError": "Failed to load image"
   }
 }
