@@ -3,7 +3,7 @@
 import * as React from 'react'
 import { useSpeechRecognition } from '@/features/chat/hooks/useSpeechRecognition'
 import { SPEECH_LANGS } from '@/lib/uiConfig'
-import { Send, Square, Mic, Paperclip, X, Globe } from 'lucide-react'
+import { Send, Square, Mic, Paperclip, X } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Textarea } from '@/components/ui/textarea'
 import { useTranslations } from 'next-intl'
@@ -32,19 +32,7 @@ export function ChatInput({ value, onChange, onSend, onStop, isStreaming }: Chat
 
   const [images, setImages] = React.useState<string[]>([])
   
-  const [langIndex, setLangIndex] = React.useState(() => {
-    const idx = SPEECH_LANGS.findIndex((l) => l.id.startsWith(language))
-    return idx !== -1 ? idx : 0
-  })
-
-  React.useEffect(() => {
-    const idx = SPEECH_LANGS.findIndex((l) => l.id.startsWith(language))
-    if (idx !== -1) {
-      setLangIndex(idx)
-    }
-  }, [language])
-
-  const speechLang = SPEECH_LANGS[langIndex]
+  const speechLang = SPEECH_LANGS[0]
 
   const textareaRef = React.useRef<HTMLTextAreaElement>(null)
   const fileInputRef = React.useRef<HTMLInputElement>(null)
@@ -175,15 +163,6 @@ export function ChatInput({ value, onChange, onSend, onStop, isStreaming }: Chat
                     ) : (
                       <Mic className="h-4 w-4" aria-hidden="true" />
                     )}
-                  </Button>
-                  <Button
-                    variant="ghost"
-                    onClick={() => setLangIndex((i) => (i + 1) % SPEECH_LANGS.length)}
-                    title={t('input.speechLang')}
-                    className="h-8 items-center gap-1 rounded-md px-2 text-[10px] text-muted-foreground transition hover:bg-secondary hover:text-foreground"
-                  >
-                    <Globe className="h-3.5 w-3.5" aria-hidden="true" />
-                    <span>{speechLang.id.split('-')[0]}</span>
                   </Button>
                 </div>
               ) : null}
