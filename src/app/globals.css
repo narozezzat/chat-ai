@@ -1,5 +1,7 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 @theme {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -29,6 +31,42 @@
 }
 
 :root {
+  /* Classic Zinc Light Theme (Default UI experience) */
+  --background: hsl(0 0% 98.5%);
+  --foreground: hsl(240 10% 3.9%);
+  
+  --card: hsl(0 0% 100%);
+  --card-foreground: hsl(240 10% 3.9%);
+  
+  --popover: hsl(0 0% 100%);
+  --popover-foreground: hsl(240 10% 3.9%);
+  
+  --primary: hsl(240 5.9% 10%);
+  --primary-foreground: hsl(0 0% 98%);
+  
+  --secondary: hsl(240 4.8% 95.9%);
+  --secondary-foreground: hsl(240 5.9% 10%);
+  
+  --muted: hsl(240 4.8% 95.9%);
+  --muted-foreground: hsl(240 3.8% 46.1%);
+  
+  --accent: hsl(240 4.8% 95.9%);
+  --accent-foreground: hsl(240 5.9% 10%);
+  
+  --destructive: hsl(0 84.2% 60.2%);
+  --destructive-foreground: hsl(0 0% 98%);
+  
+  --border: hsl(240 5.9% 90%);
+  --input: hsl(240 5.9% 90%);
+  --ring: hsl(240 5.9% 10%);
+  
+  --radius: 0.5rem;
+  
+  --scrollbar-thumb: hsl(240 5% 82%);
+  --scrollbar-thumb-hover: hsl(240 5% 70%);
+}
+
+.dark {
   /* Classic Zinc Dark Theme */
   --background: hsl(240 10% 3.9%);
   --foreground: hsl(0 0% 98%);
@@ -58,7 +96,8 @@
   --input: hsl(240 3.7% 15.9%);
   --ring: hsl(240 4.9% 83.9%);
   
-  --radius: 0.5rem;
+  --scrollbar-thumb: hsl(240 3.7% 20%);
+  --scrollbar-thumb-hover: hsl(240 3.7% 30%);
 }
 
 /* Base styles */
@@ -81,11 +120,11 @@ body {
   background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: hsl(240 3.7% 20%);
+  background: var(--scrollbar-thumb);
   border-radius: 999px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: hsl(240 3.7% 30%);
+  background: var(--scrollbar-thumb-hover);
 }
 
 /* Pulsing red recording dot */
@@ -122,20 +161,7 @@ body {
   animation-delay: 0.4s;
 }
 
-/* Entrance animation for messages */
-@keyframes msg-in {
-  from {
-    opacity: 0;
-    transform: translateY(4px);
-  }
-  to {
-    opacity: 1;
-    transform: none;
-  }
-}
-.msg-in {
-  animation: msg-in 0.2s cubic-bezier(0.16, 1, 0.3, 1) both;
-}
+
 
 /* Markdown chat bubble styling */
 .prose-chat {

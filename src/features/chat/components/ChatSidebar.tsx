@@ -39,14 +39,14 @@ export function ChatSidebar({ isOpen, onClose, onNewChat }: ChatSidebarProps): R
       ) : null}
 
       <div
-        className={`fixed inset-y-0 inset-s-0 z-50 flex w-72 flex-col border-e border-border bg-zinc-950/80 backdrop-blur-xl transition-transform duration-300 md:relative md:translate-x-0 ${isOpen ? 'translate-x-0' : 'translate-x-full md:translate-x-0'
+        className={`fixed inset-y-0 inset-s-0 z-50 flex w-72 flex-col border-e border-border bg-background/85 backdrop-blur-xl transition-transform duration-300 md:relative md:translate-x-0 ${isOpen ? 'translate-x-0' : 'translate-x-full md:translate-x-0'
           }`}
       >
         {/* Sidebar Header branding */}
         <div className="flex h-16 items-center justify-between px-6 border-b border-border/40 shrink-0">
           <div className="flex items-center gap-2.5">
-            <div className="flex h-8 w-8 items-center justify-center rounded-lg border border-border bg-zinc-900/60 shadow-xs">
-              <Sparkles className="h-4 w-4 text-zinc-200" aria-hidden="true" />
+            <div className="flex h-8 w-8 items-center justify-center rounded-lg border border-border bg-secondary shadow-xs">
+              <Sparkles className="h-4 w-4 text-foreground" aria-hidden="true" />
             </div>
             <span className="text-sm font-semibold tracking-tight text-foreground">AI Studio</span>
           </div>
@@ -54,7 +54,7 @@ export function ChatSidebar({ isOpen, onClose, onNewChat }: ChatSidebarProps): R
             variant="ghost"
             size="icon"
             onClick={onClose}
-            className="h-8 w-8 rounded-md text-muted-foreground hover:bg-zinc-800 hover:text-foreground md:hidden"
+            className="h-8 w-8 rounded-md text-muted-foreground hover:bg-secondary hover:text-foreground md:hidden"
             aria-label="إغلاق القائمة"
           >
             <X className="h-4 w-4" aria-hidden="true" />
@@ -70,7 +70,7 @@ export function ChatSidebar({ isOpen, onClose, onNewChat }: ChatSidebarProps): R
               onNewChat()
               onClose()
             }}
-            className="w-full rounded-lg flex items-center justify-center gap-1.5 border-border bg-zinc-900/30 text-foreground shadow-xs hover:bg-zinc-800/80 hover:text-foreground"
+            className="w-full rounded-lg flex items-center justify-center gap-1.5 border-border bg-secondary/40 text-foreground shadow-xs hover:bg-secondary/80 hover:text-foreground"
           >
             <Plus className="h-4 w-4" aria-hidden="true" />
             <span>محادثة جديدة</span>
@@ -93,7 +93,7 @@ export function ChatSidebar({ isOpen, onClose, onNewChat }: ChatSidebarProps): R
                     transition={{ duration: 0.15 }}
                     className={`group flex items-center justify-between gap-1.5 rounded-lg px-3 py-2 text-xs font-medium cursor-pointer transition-all border ${active
                         ? 'bg-secondary text-secondary-foreground border-border/80'
-                        : 'text-muted-foreground border-transparent hover:bg-zinc-900/30 hover:text-foreground'
+                        : 'text-muted-foreground border-transparent hover:bg-secondary/50 hover:text-foreground'
                       }`}
                     onClick={() => {
                       selectSession(s.id)

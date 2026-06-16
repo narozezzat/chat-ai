@@ -20,8 +20,8 @@ const SUGGESTIONS = [
 function EmptyState({ onSuggest }: { onSuggest: (text: string) => void }): React.JSX.Element {
   return (
     <div className="mx-auto flex h-full w-full max-w-2xl flex-col items-center justify-center px-4 py-16 text-center md:py-0">
-      <div className="mb-6 flex h-12 w-12 items-center justify-center rounded-lg border border-border bg-zinc-900/60 shadow-xs">
-        <Sparkles className="h-5 w-5 text-zinc-200" aria-hidden="true" />
+      <div className="mb-6 flex h-12 w-12 items-center justify-center rounded-lg border border-border bg-secondary shadow-xs">
+        <Sparkles className="h-5 w-5 text-muted-foreground" aria-hidden="true" />
       </div>
       <h1 className="text-lg font-semibold tracking-tight text-foreground">أهلاً بك في استوديو الدردشة</h1>
       <p className="mt-2 max-w-sm text-xs text-muted-foreground/80 leading-relaxed">
@@ -34,7 +34,7 @@ function EmptyState({ onSuggest }: { onSuggest: (text: string) => void }): React
             key={s}
             variant="outline"
             onClick={() => onSuggest(s)}
-            className="h-auto whitespace-normal rounded-lg border border-border bg-zinc-900/20 px-3.5 py-3 text-start text-xs text-muted-foreground hover:bg-zinc-800/40 hover:text-foreground hover:border-zinc-700 transition-all flex justify-start items-center"
+            className="h-auto whitespace-normal rounded-lg border border-border bg-secondary/20 px-3.5 py-3 text-start text-xs text-muted-foreground hover:bg-secondary hover:text-foreground hover:border-border/80 transition-all flex justify-start items-center"
           >
             {s}
           </Button>

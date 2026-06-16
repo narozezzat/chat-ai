@@ -14,7 +14,7 @@ export function EffortSelector({ value, onChange }: EffortSelectorProps): React.
   return (
     <div className="flex flex-col gap-1.5">
       <span className="text-xs font-semibold text-muted-foreground/60">مستوى التفكير</span>
-      <div className="flex rounded-lg border border-border bg-zinc-900/30 p-1">
+      <div className="flex rounded-lg border border-border bg-secondary/40 p-1">
         {EFFORT_LEVELS.map((lvl) => {
           const active = lvl.id === value
           return (
@@ -26,7 +26,7 @@ export function EffortSelector({ value, onChange }: EffortSelectorProps): React.
               aria-pressed={active}
               className={`flex-1 rounded-md py-1 h-7 text-[11px] font-medium transition-all ${
                 active
-                  ? 'bg-zinc-800 text-foreground shadow-xs border border-zinc-700/30'
+                  ? 'bg-background text-foreground shadow-xs border border-border/50'
                   : 'text-muted-foreground hover:text-foreground hover:bg-transparent'
               }`}
             >

@@ -11,6 +11,7 @@ import { MessageList } from '@/features/chat/components/MessageList'
 import { ChatInput } from '@/features/chat/components/ChatInput'
 import { Menu, Plus } from 'lucide-react'
 import { Button } from '@/components/ui/button'
+import { ThemeToggle } from '@/components/ui/ThemeToggle'
 
 export default function RootPage(): React.JSX.Element {
   const {
@@ -103,7 +104,7 @@ export default function RootPage(): React.JSX.Element {
   }
 
   return (
-    <div className="relative z-10 flex h-dvh overflow-hidden bg-background" dir="rtl">
+    <div className="relative z-10 flex h-dvh overflow-hidden bg-background animate-in fade-in duration-200" dir="rtl">
       {/* Persistent/Collapsible Sidebar drawer */}
       <ChatSidebar
         isOpen={sidebarOpen}
@@ -112,14 +113,14 @@ export default function RootPage(): React.JSX.Element {
       />
 
       {/* Main chat window viewport */}
-      <div className="flex flex-1 flex-col overflow-hidden relative animate-in fade-in duration-300">
+      <div className="flex flex-1 flex-col overflow-hidden relative">
         {/* Top Header navbar */}
-        <header className="sticky top-0 z-20 flex h-16 w-full items-center justify-between border-b border-border/40 bg-zinc-950/20 backdrop-blur-md px-4 shrink-0">
+        <header className="sticky top-0 z-20 flex h-16 w-full items-center justify-between border-b border-border/40 bg-background/60 backdrop-blur-md px-4 shrink-0">
           <div className="flex items-center gap-2.5">
             <Button
               variant="ghost"
               size="icon"
-              className="flex h-9 w-9 items-center justify-center rounded-lg bg-zinc-900/30 border border-border hover:bg-zinc-800 md:hidden"
+              className="flex h-9 w-9 items-center justify-center rounded-lg bg-secondary/40 border border-border hover:bg-secondary/80 md:hidden"
               onClick={() => setSidebarOpen(true)}
               aria-label="افتح القائمة الجانبية"
             >
@@ -133,10 +134,11 @@ export default function RootPage(): React.JSX.Element {
           </div>
 
           <div className="flex items-center gap-2">
+            <ThemeToggle />
             <Button
               variant="ghost"
               size="icon"
-              className="h-9 w-9 rounded-lg border border-border bg-zinc-900/30 hover:bg-zinc-800 md:flex hidden"
+              className="h-9 w-9 rounded-lg border border-border bg-secondary/40 hover:bg-secondary/80 md:flex hidden"
               onClick={handleNewChat}
               aria-label="محادثة جديدة"
             >

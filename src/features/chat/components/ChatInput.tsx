@@ -84,7 +84,7 @@ export function ChatInput({ value, onChange, onSend, onStop, isStreaming }: Chat
   }
 
   return (
-    <div className="border-t border-border bg-zinc-950/60 backdrop-blur-md">
+    <div className="border-t border-border bg-background/65 backdrop-blur-md">
       <div className="mx-auto w-full max-w-3xl px-4 py-3">
         {images.length > 0 ? (
           <div className="mb-2 flex flex-wrap gap-2">
@@ -106,7 +106,7 @@ export function ChatInput({ value, onChange, onSend, onStop, isStreaming }: Chat
           </div>
         ) : null}
 
-        <div className="flex flex-col gap-2 rounded-lg border border-border bg-zinc-900/40 p-2 shadow-xs transition-all focus-within:border-zinc-700">
+        <div className="flex flex-col gap-2 rounded-lg border border-border bg-card p-2 shadow-xs transition-all focus-within:border-zinc-300">
           <Textarea
             ref={textareaRef}
             dir="auto"
@@ -133,7 +133,7 @@ export function ChatInput({ value, onChange, onSend, onStop, isStreaming }: Chat
                 size="icon"
                 onClick={() => fileInputRef.current?.click()}
                 title="إرفاق صورة"
-                className="h-8 w-8 rounded-md text-muted-foreground transition hover:bg-zinc-800 hover:text-foreground"
+                className="h-8 w-8 rounded-md text-muted-foreground transition hover:bg-secondary hover:text-foreground"
                 aria-label="Attach file"
               >
                 <Paperclip className="h-4 w-4" aria-hidden="true" />
@@ -149,7 +149,7 @@ export function ChatInput({ value, onChange, onSend, onStop, isStreaming }: Chat
                     className={`h-8 w-8 rounded-md transition ${
                       listening
                         ? 'bg-red-500/10 text-red-500 hover:bg-red-500/20'
-                        : 'text-muted-foreground hover:bg-zinc-800 hover:text-foreground'
+                        : 'text-muted-foreground hover:bg-secondary hover:text-foreground'
                     }`}
                     aria-label={listening ? "Stop voice recognition" : "Start voice recognition"}
                   >
@@ -163,7 +163,7 @@ export function ChatInput({ value, onChange, onSend, onStop, isStreaming }: Chat
                     variant="ghost"
                     onClick={() => setLangIndex((i) => (i + 1) % SPEECH_LANGS.length)}
                     title="لغة التحدّث"
-                    className="h-8 items-center gap-1 rounded-md px-2 text-[10px] text-muted-foreground transition hover:bg-zinc-800 hover:text-foreground"
+                    className="h-8 items-center gap-1 rounded-md px-2 text-[10px] text-muted-foreground transition hover:bg-secondary hover:text-foreground"
                   >
                     <Globe className="h-3.5 w-3.5" aria-hidden="true" />
                     <span>{speechLang.id.split('-')[0]}</span>
@@ -178,7 +178,7 @@ export function ChatInput({ value, onChange, onSend, onStop, isStreaming }: Chat
                 size="icon"
                 onClick={onStop}
                 title="إيقاف التوليد"
-                className="h-8 w-8 rounded-md bg-zinc-800 text-foreground transition hover:bg-zinc-700"
+                className="h-8 w-8 rounded-md bg-secondary text-foreground transition hover:bg-secondary/80"
                 aria-label="Stop generation"
               >
                 <Square className="h-3.5 w-3.5 fill-current" aria-hidden="true" />

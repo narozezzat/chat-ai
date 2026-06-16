@@ -2,6 +2,7 @@ import './globals.css'
 import type { Metadata, Viewport } from 'next'
 import type { ReactNode } from 'react'
 import { Cairo } from 'next/font/google'
+import { ThemeProvider } from '@/components/ThemeProvider'
 
 const cairo = Cairo({
   subsets: ['arabic', 'latin'],
@@ -15,7 +16,6 @@ export const metadata: Metadata = {
 }
 
 export const viewport: Viewport = {
-  colorScheme: 'dark',
   themeColor: '#09090b',
 }
 
@@ -23,8 +23,12 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   // Direction is set once at the <html> root (RTL by default for Arabic).
   // Message content uses dir="auto" so embedded English renders correctly.
   return (
-    <html lang="ar" dir="rtl" className={`${cairo.variable}`}>
-      <body className="font-sans font-medium">{children}</body>
+    <html lang="ar" dir="rtl" className={`${cairo.variable}`} suppressHydrationWarning>
+      <body className="font-sans font-medium">
+        <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
+          {children}
+        </ThemeProvider>
+      </body>
     </html>
   )
 }

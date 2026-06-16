@@ -5,6 +5,7 @@ import Markdown from '@/components/ui/Markdown'
 import { Copy, Check, Sparkles, User } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
+import { motion } from 'framer-motion'
 
 interface MessageItemProps {
   role: 'user' | 'assistant'
@@ -19,8 +20,8 @@ function Avatar({ isUser }: { isUser: boolean }): React.JSX.Element {
       className={cn(
         "mt-1.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border shadow-xs",
         isUser
-          ? "bg-zinc-800 text-zinc-300 border-zinc-700/50"
-          : "bg-zinc-900 text-zinc-200 border-border"
+          ? "bg-secondary text-muted-foreground border-border"
+          : "bg-background text-foreground border-border"
       )}
     >
       {isUser ? (
@@ -57,7 +58,12 @@ export function MessageItem({ role, content, images, streaming }: MessageItemPro
   }
 
   return (
-    <div className="msg-in group/msg flex w-full gap-4">
+    <motion.div
+      initial={{ opacity: 0, y: 4 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
+      className="group/msg flex w-full gap-4"
+    >
       {isUser ? null : <Avatar isUser={false} />}
 
       <div className={cn("flex max-w-[85%] flex-col", isUser ? "ms-auto items-end" : "items-start")}>
@@ -65,7 +71,7 @@ export function MessageItem({ role, content, images, streaming }: MessageItemPro
           className={cn(
             "transition-all",
             isUser
-              ? "rounded-lg rounded-te-xs bg-zinc-900 border border-zinc-800/80 px-4 py-2.5 text-foreground shadow-xs text-sm"
+              ? "rounded-lg rounded-te-xs bg-secondary/80 border border-border/50 px-4 py-2.5 text-foreground shadow-xs text-sm"
               : "px-1 py-1 text-foreground"
           )}
         >
@@ -99,7 +105,7 @@ export function MessageItem({ role, content, images, streaming }: MessageItemPro
               variant="ghost"
               size="sm"
               onClick={copy}
-              className="mt-1 h-7 gap-1.5 rounded-md px-2 text-[10px] text-muted-foreground hover:bg-zinc-850 hover:text-foreground opacity-0 group-hover/msg:opacity-100 focus:opacity-100"
+              className="mt-1 h-7 gap-1.5 rounded-md px-2 text-[10px] text-muted-foreground hover:bg-secondary hover:text-foreground opacity-0 group-hover/msg:opacity-100 focus:opacity-100"
               aria-label="Copy message"
             >
               {copied ? (
@@ -114,6 +120,6 @@ export function MessageItem({ role, content, images, streaming }: MessageItemPro
       </div>
 
       {isUser ? <Avatar isUser={true} /> : null}
-    </div>
+    </motion.div>
   )
 }
