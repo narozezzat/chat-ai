@@ -54,7 +54,7 @@ export function ThemeToggle(): React.JSX.Element {
         >
           <DropdownMenuPrimitive.Item
             onClick={() => setTheme('light')}
-            className="relative flex cursor-pointer select-none items-center justify-between rounded-md px-2.5 py-1.5 text-xs outline-hidden transition hover:bg-accent hover:text-accent-foreground data-disabled:pointer-events-none data-disabled:opacity-50"
+            className="relative flex cursor-pointer select-none items-center justify-between rounded-md px-2.5 py-1.5 text-xs outline-hidden transition hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground data-[highlighted]:bg-accent data-[highlighted]:text-accent-foreground data-disabled:pointer-events-none data-disabled:opacity-50"
           >
             <div className="flex items-center gap-2">
               <Sun className="h-3.5 w-3.5" aria-hidden="true" />
@@ -65,7 +65,7 @@ export function ThemeToggle(): React.JSX.Element {
 
           <DropdownMenuPrimitive.Item
             onClick={() => setTheme('dark')}
-            className="relative flex cursor-pointer select-none items-center justify-between rounded-md px-2.5 py-1.5 text-xs outline-hidden transition hover:bg-accent hover:text-accent-foreground data-disabled:pointer-events-none data-disabled:opacity-50"
+            className="relative flex cursor-pointer select-none items-center justify-between rounded-md px-2.5 py-1.5 text-xs outline-hidden transition hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground data-[highlighted]:bg-accent data-[highlighted]:text-accent-foreground data-disabled:pointer-events-none data-disabled:opacity-50"
           >
             <div className="flex items-center gap-2">
               <Moon className="h-3.5 w-3.5" aria-hidden="true" />
@@ -76,7 +76,7 @@ export function ThemeToggle(): React.JSX.Element {
 
           <DropdownMenuPrimitive.Item
             onClick={() => setTheme('system')}
-            className="relative flex cursor-pointer select-none items-center justify-between rounded-md px-2.5 py-1.5 text-xs outline-hidden transition hover:bg-accent hover:text-accent-foreground data-disabled:pointer-events-none data-disabled:opacity-50"
+            className="relative flex cursor-pointer select-none items-center justify-between rounded-md px-2.5 py-1.5 text-xs outline-hidden transition hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground data-[highlighted]:bg-accent data-[highlighted]:text-accent-foreground data-disabled:pointer-events-none data-disabled:opacity-50"
           >
             <div className="flex items-center gap-2">
               <Monitor className="h-3.5 w-3.5" aria-hidden="true" />
