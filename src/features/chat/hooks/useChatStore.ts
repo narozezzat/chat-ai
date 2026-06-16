@@ -16,7 +16,7 @@ interface ChatState {
   activeSessionId: string | null
   isStreaming: boolean
   
-  createSession: (modelId: string, effort: 'low' | 'medium' | 'high') => string
+  createSession: (modelId: string, effort: 'low' | 'medium' | 'high', title?: string) => string
   deleteSession: (id: string) => void
   selectSession: (id: string) => void
   updateSessionMessages: (sessionId: string, messages: UIMessage[]) => void
@@ -33,11 +33,11 @@ export const useChatStore = create<ChatState>()(
       activeSessionId: null,
       isStreaming: false,
 
-      createSession: (modelId, effort) => {
+      createSession: (modelId, effort, title) => {
         const id = crypto.randomUUID()
         const newSession: ChatSession = {
           id,
-          title: 'محادثة جديدة',
+          title: title || 'new_chat',
           messages: [],
           modelId,
           effort,
@@ -66,11 +66,12 @@ export const useChatStore = create<ChatState>()(
       },
 
       updateSessionMessages: (sessionId, messages) => {
+        const defaultTitles = ['محادثة جديدة', 'New Chat', 'new_chat', 'New chat']
         set((state) => ({
           sessions: state.sessions.map((s) => {
             if (s.id === sessionId) {
               let title = s.title
-              if (s.title === 'محادثة جديدة' && messages.length > 0) {
+              if (defaultTitles.includes(s.title) && messages.length > 0) {
                 const userMsg = messages.find((m) => m.role === 'user')
                 if (userMsg && userMsg.content) {
                   title = userMsg.content.slice(0, 30) + (userMsg.content.length > 30 ? '...' : '')

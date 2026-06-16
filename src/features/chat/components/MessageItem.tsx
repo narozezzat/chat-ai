@@ -6,6 +6,7 @@ import { Copy, Check, Sparkles, User } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import { motion } from 'framer-motion'
+import { useTranslations } from 'next-intl'
 
 interface MessageItemProps {
   role: 'user' | 'assistant'
@@ -34,8 +35,9 @@ function Avatar({ isUser }: { isUser: boolean }): React.JSX.Element {
 }
 
 function Typing(): React.JSX.Element {
+  const t = useTranslations()
   return (
-    <span className="typing inline-flex items-center gap-1 py-1" aria-label="جاري الكتابة">
+    <span className="typing inline-flex items-center gap-1 py-1" aria-label={t('message.typing')}>
       <span className="h-1.5 w-1.5 rounded-full bg-muted-foreground/60" />
       <span className="h-1.5 w-1.5 rounded-full bg-muted-foreground/60" />
       <span className="h-1.5 w-1.5 rounded-full bg-muted-foreground/60" />
@@ -44,6 +46,7 @@ function Typing(): React.JSX.Element {
 }
 
 export function MessageItem({ role, content, images, streaming }: MessageItemProps): React.JSX.Element {
+  const t = useTranslations()
   const isUser = role === 'user'
   const [copied, setCopied] = React.useState(false)
 
@@ -106,14 +109,14 @@ export function MessageItem({ role, content, images, streaming }: MessageItemPro
               size="sm"
               onClick={copy}
               className="mt-1 h-7 gap-1.5 rounded-md px-2 text-[10px] text-muted-foreground hover:bg-secondary hover:text-foreground opacity-0 group-hover/msg:opacity-100 focus:opacity-100"
-              aria-label="Copy message"
+              aria-label={t('message.copyAria')}
             >
               {copied ? (
                 <Check className="h-3.5 w-3.5 text-green-500" aria-hidden="true" />
               ) : (
                 <Copy className="h-3.5 w-3.5" aria-hidden="true" />
               )}
-              <span>{copied ? 'تم النسخ' : 'نسخ'}</span>
+              <span>{copied ? t('message.copied') : t('message.copy')}</span>
             </Button>
           ) : null
         )}

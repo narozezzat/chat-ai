@@ -1,0 +1,48 @@
+{
+  "common": {
+    "appTitle": "AI Studio",
+    "newChat": "New Chat",
+    "clearAll": "Clear all history",
+    "clearConfirm": "Are you sure you want to delete all conversations?",
+    "history": "Chat History",
+    "settings": "Current Chat Settings",
+    "closeSidebar": "Close sidebar",
+    "openSidebar": "Open sidebar",
+    "deleteChat": "Delete conversation"
+  },
+  "model": {
+    "selectPlaceholder": "Select model"
+  },
+  "effort": {
+    "label": "Thinking Level",
+    "low": "Low",
+    "medium": "Medium",
+    "high": "High"
+  },
+  "input": {
+    "placeholder": "Type your message here...",
+    "listening": "Listening…",
+    "attach": "Attach image",
+    "talk": "Talk",
+    "stopRecording": "Stop recording",
+    "speechLang": "Speech language",
+    "stop": "Stop generation",
+    "send": "Send",
+    "removeImage": "Remove image",
+    "hint": "Press Enter to send · Shift+Enter for new line"
+  },
+  "emptyState": {
+    "welcome": "Welcome to Chat Studio",
+    "description": "Chat with the latest AI models — choose a model and thinking level, then start chatting.",
+    "suggestion_quantum": "Explain quantum computing simply",
+    "suggestion_python": "Write a Python function to sort a list",
+    "suggestion_ai_project": "Give me AI graduation project ideas",
+    "suggestion_ai_education": "Summarize the benefits of AI in education"
+  },
+  "message": {
+    "typing": "Typing…",
+    "copy": "Copy",
+    "copied": "Copied",
+    "copyAria": "Copy message"
+  }
+}

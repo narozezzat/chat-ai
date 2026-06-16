@@ -2,7 +2,8 @@ import * as React from 'react'
 import { MessageItem } from '@/features/chat/components/MessageItem'
 import { Sparkles } from 'lucide-react'
 import type { UIMessage } from '@/lib/types'
-import { Button } from '@/components/ui/button'
+import { useTranslations } from 'next-intl'
+import { motion } from 'framer-motion'
 
 interface MessageListProps {
   messages: UIMessage[]
@@ -10,37 +11,35 @@ interface MessageListProps {
   onSuggest: (text: string) => void
 }
 
-const SUGGESTIONS = [
-  'اشرح لي الحوسبة الكمومية ببساطة',
-  'اكتب دالة بايثون لترتيب قائمة',
-  'أعطني أفكاراً لمشروع تخرج في الذكاء الاصطناعي',
-  'لخّص لي فوائد الذكاء الاصطناعي في التعليم',
-]
+function EmptyState(): React.JSX.Element {
+  const t = useTranslations()
 
-function EmptyState({ onSuggest }: { onSuggest: (text: string) => void }): React.JSX.Element {
   return (
-    <div className="mx-auto flex h-full w-full max-w-2xl flex-col items-center justify-center px-4 py-16 text-center md:py-0">
-      <div className="mb-6 flex h-12 w-12 items-center justify-center rounded-lg border border-border bg-secondary shadow-xs">
-        <Sparkles className="h-5 w-5 text-muted-foreground" aria-hidden="true" />
+    <motion.div
+      initial={{ opacity: 0, y: 12 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+      className="mx-auto flex h-full w-full max-w-md flex-col items-center justify-center px-4 py-20 text-center md:py-0"
+    >
+      <div className="relative mb-6 flex h-16 w-16 items-center justify-center rounded-2xl border border-border bg-secondary/35 shadow-sm transition-all hover:scale-105 hover:bg-secondary/60 duration-300 group">
+        <div className="absolute inset-0 -z-10 rounded-2xl bg-primary/5 opacity-0 blur-md transition-opacity group-hover:opacity-100 duration-300" />
+        <Sparkles className="h-6 w-6 text-foreground/80 transition-transform group-hover:rotate-12 duration-300" aria-hidden="true" />
       </div>
-      <h1 className="text-lg font-semibold tracking-tight text-foreground">أهلاً بك في استوديو الدردشة</h1>
-      <p className="mt-2 max-w-sm text-xs text-muted-foreground/80 leading-relaxed">
-        تحدّث مع أحدث نماذج الذكاء الاصطناعي — اختر النموذج ومستوى التفكير، وابدأ المحادثة.
+
+      <h1 className="bg-linear-to-br from-foreground to-foreground/60 bg-clip-text text-xl font-bold tracking-tight text-transparent sm:text-2xl">
+        {t('emptyState.welcome')}
+      </h1>
+
+      <p className="mt-2 text-xs text-muted-foreground/75 leading-relaxed max-w-xs">
+        {t('emptyState.description')}
       </p>
 
-      <div className="mt-8 flex w-full flex-wrap justify-center gap-2.5 sm:grid sm:grid-cols-2 max-w-md">
-        {SUGGESTIONS.map((s) => (
-          <Button
-            key={s}
-            variant="outline"
-            onClick={() => onSuggest(s)}
-            className="h-auto whitespace-normal rounded-lg border border-border bg-secondary/20 px-3.5 py-3 text-start text-xs text-muted-foreground hover:bg-secondary hover:text-foreground hover:border-border/80 transition-all flex justify-start items-center"
-          >
-            {s}
-          </Button>
-        ))}
+      <div className="mt-8 flex items-center justify-center gap-1.5 w-full max-w-[120px]">
+        <div className="h-px flex-1 bg-border/50" />
+        <div className="h-1.5 w-1.5 rounded-full bg-border" />
+        <div className="h-px flex-1 bg-border/50" />
       </div>
-    </div>
+    </motion.div>
   )
 }
 
@@ -53,7 +52,7 @@ export function MessageList({ messages, isStreaming, onSuggest }: MessageListPro
   }, [messages.length, last?.content])
 
   if (messages.length === 0) {
-    return <EmptyState onSuggest={onSuggest} />
+    return <EmptyState />
   }
 
   return (

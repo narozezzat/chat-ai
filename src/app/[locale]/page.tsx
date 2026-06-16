@@ -12,8 +12,13 @@ import { ChatInput } from '@/features/chat/components/ChatInput'
 import { Menu, Plus } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { ThemeToggle } from '@/components/ui/ThemeToggle'
+import { LanguageSwitcher } from '@/components/ui/LanguageSwitcher'
+import { useLanguage } from '@/hooks/useLanguage'
+import { useTranslations } from 'next-intl'
 
 export default function RootPage(): React.JSX.Element {
+  const t = useTranslations()
+  const { dir } = useLanguage()
   const {
     sessions,
     activeSessionId,
@@ -27,9 +32,18 @@ export default function RootPage(): React.JSX.Element {
   const [sidebarOpen, setSidebarOpen] = React.useState(false)
   const abortRef = React.useRef<AbortController | null>(null)
 
+  const getDisplayTitle = (title: string | undefined): string => {
+    if (!title) return t('common.newChat')
+    const defaultTitles = ['محادثة جديدة', 'New Chat', 'new_chat', 'New chat']
+    if (defaultTitles.includes(title)) {
+      return t('common.newChat')
+    }
+    return title
+  }
+
   React.useEffect(() => {
     if (sessions.length === 0) {
-      createSession(DEFAULT_MODEL_ID, 'medium')
+      createSession(DEFAULT_MODEL_ID, 'medium', 'new_chat')
     }
   }, [sessions, createSession])
 
@@ -99,12 +113,12 @@ export default function RootPage(): React.JSX.Element {
 
   const handleNewChat = (): void => {
     handleStop()
-    createSession(DEFAULT_MODEL_ID, 'medium')
+    createSession(DEFAULT_MODEL_ID, 'medium', 'new_chat')
     setInput('')
   }
 
   return (
-    <div className="relative z-10 flex h-dvh overflow-hidden bg-background animate-in fade-in duration-200" dir="rtl">
+    <div className="relative z-10 flex h-dvh overflow-hidden bg-background animate-in fade-in duration-200" dir={dir}>
       {/* Persistent/Collapsible Sidebar drawer */}
       <ChatSidebar
         isOpen={sidebarOpen}
@@ -122,25 +136,26 @@ export default function RootPage(): React.JSX.Element {
               size="icon"
               className="flex h-9 w-9 items-center justify-center rounded-lg bg-secondary/40 border border-border hover:bg-secondary/80 md:hidden"
               onClick={() => setSidebarOpen(true)}
-              aria-label="افتح القائمة الجانبية"
+              aria-label={t('common.openSidebar')}
             >
               <Menu className="h-5 w-5" aria-hidden="true" />
             </Button>
             <div className="flex items-center gap-2">
               <span dir="auto" className="text-sm font-semibold tracking-tight text-foreground md:text-base">
-                {activeSession?.title || 'محادثة جديدة'}
+                {getDisplayTitle(activeSession?.title)}
               </span>
             </div>
           </div>
 
           <div className="flex items-center gap-2">
+            <LanguageSwitcher />
             <ThemeToggle />
             <Button
               variant="ghost"
               size="icon"
               className="h-9 w-9 rounded-lg border border-border bg-secondary/40 hover:bg-secondary/80 md:flex hidden"
               onClick={handleNewChat}
-              aria-label="محادثة جديدة"
+              aria-label={t('common.newChat')}
             >
               <Plus className="h-4 w-4" aria-hidden="true" />
             </Button>

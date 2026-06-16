@@ -6,6 +6,8 @@ import { SPEECH_LANGS } from '@/lib/uiConfig'
 import { Send, Square, Mic, Paperclip, X, Globe } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Textarea } from '@/components/ui/textarea'
+import { useTranslations } from 'next-intl'
+import { useLanguage } from '@/hooks/useLanguage'
 
 interface ChatInputProps {
   value: string
@@ -25,8 +27,23 @@ function fileToDataUrl(file: File): Promise<string> {
 }
 
 export function ChatInput({ value, onChange, onSend, onStop, isStreaming }: ChatInputProps): React.JSX.Element {
+  const t = useTranslations()
+  const { language } = useLanguage()
+
   const [images, setImages] = React.useState<string[]>([])
-  const [langIndex, setLangIndex] = React.useState(0)
+  
+  const [langIndex, setLangIndex] = React.useState(() => {
+    const idx = SPEECH_LANGS.findIndex((l) => l.id.startsWith(language))
+    return idx !== -1 ? idx : 0
+  })
+
+  React.useEffect(() => {
+    const idx = SPEECH_LANGS.findIndex((l) => l.id.startsWith(language))
+    if (idx !== -1) {
+      setLangIndex(idx)
+    }
+  }, [language])
+
   const speechLang = SPEECH_LANGS[langIndex]
 
   const textareaRef = React.useRef<HTMLTextAreaElement>(null)
@@ -97,7 +114,7 @@ export function ChatInput({ value, onChange, onSend, onStop, isStreaming }: Chat
                   variant="outline"
                   size="icon"
                   className="absolute -inset-e-1.5 -top-1.5 h-5 w-5 rounded-full bg-background text-muted-foreground shadow-xs transition hover:text-foreground [&_svg]:size-3"
-                  aria-label="إزالة الصورة"
+                  aria-label={t('input.removeImage')}
                 >
                   <X className="h-3 w-3" aria-hidden="true" />
                 </Button>
@@ -114,7 +131,7 @@ export function ChatInput({ value, onChange, onSend, onStop, isStreaming }: Chat
             value={value}
             onChange={(e) => onChange(e.target.value)}
             onKeyDown={handleKeyDown}
-            placeholder={listening ? 'جارٍ الاستماع…' : 'اكتب رسالتك هنا…'}
+            placeholder={listening ? t('input.listening') : t('input.placeholder')}
             className="max-h-[150px] min-h-[40px] w-full resize-none bg-transparent border-0 px-2 py-2 text-sm leading-relaxed text-foreground outline-hidden shadow-none focus-visible:ring-0"
           />
 
@@ -132,9 +149,9 @@ export function ChatInput({ value, onChange, onSend, onStop, isStreaming }: Chat
                 variant="ghost"
                 size="icon"
                 onClick={() => fileInputRef.current?.click()}
-                title="إرفاق صورة"
+                title={t('input.attach')}
                 className="h-8 w-8 rounded-md text-muted-foreground transition hover:bg-secondary hover:text-foreground"
-                aria-label="Attach file"
+                aria-label={t('input.attach')}
               >
                 <Paperclip className="h-4 w-4" aria-hidden="true" />
               </Button>
@@ -145,13 +162,13 @@ export function ChatInput({ value, onChange, onSend, onStop, isStreaming }: Chat
                     variant={listening ? "destructive" : "ghost"}
                     size="icon"
                     onClick={toggleMic}
-                    title={listening ? 'إيقاف التسجيل' : 'تحدّث'}
+                    title={listening ? t('input.stopRecording') : t('input.talk')}
                     className={`h-8 w-8 rounded-md transition ${
                       listening
                         ? 'bg-red-500/10 text-red-500 hover:bg-red-500/20'
                         : 'text-muted-foreground hover:bg-secondary hover:text-foreground'
                     }`}
-                    aria-label={listening ? "Stop voice recognition" : "Start voice recognition"}
+                    aria-label={listening ? t('input.stopRecording') : t('input.talk')}
                   >
                     {listening ? (
                       <span className="rec-dot h-2 w-2 rounded-full bg-red-500" />
@@ -162,7 +179,7 @@ export function ChatInput({ value, onChange, onSend, onStop, isStreaming }: Chat
                   <Button
                     variant="ghost"
                     onClick={() => setLangIndex((i) => (i + 1) % SPEECH_LANGS.length)}
-                    title="لغة التحدّث"
+                    title={t('input.speechLang')}
                     className="h-8 items-center gap-1 rounded-md px-2 text-[10px] text-muted-foreground transition hover:bg-secondary hover:text-foreground"
                   >
                     <Globe className="h-3.5 w-3.5" aria-hidden="true" />
@@ -177,9 +194,9 @@ export function ChatInput({ value, onChange, onSend, onStop, isStreaming }: Chat
                 variant="secondary"
                 size="icon"
                 onClick={onStop}
-                title="إيقاف التوليد"
+                title={t('input.stop')}
                 className="h-8 w-8 rounded-md bg-secondary text-foreground transition hover:bg-secondary/80"
-                aria-label="Stop generation"
+                aria-label={t('input.stop')}
               >
                 <Square className="h-3.5 w-3.5 fill-current" aria-hidden="true" />
               </Button>
@@ -189,9 +206,9 @@ export function ChatInput({ value, onChange, onSend, onStop, isStreaming }: Chat
                 size="icon"
                 onClick={handleSend}
                 disabled={!canSend}
-                title="إرسال"
+                title={t('input.send')}
                 className="h-8 w-8 rounded-md bg-foreground text-background shadow-xs transition hover:bg-foreground/90 disabled:cursor-not-allowed disabled:opacity-40"
-                aria-label="Send message"
+                aria-label={t('input.send')}
               >
                 <Send className="h-3.5 w-3.5 rtl:rotate-180" aria-hidden="true" />
               </Button>
@@ -200,7 +217,7 @@ export function ChatInput({ value, onChange, onSend, onStop, isStreaming }: Chat
         </div>
 
         <p className="mt-1.5 text-center text-[10px] text-muted-foreground/45 hidden sm:block">
-          اضغط Enter للإرسال · Shift+Enter لسطر جديد
+          {t('input.hint')}
         </p>
       </div>
     </div>
