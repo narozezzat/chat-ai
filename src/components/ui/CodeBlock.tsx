@@ -1,9 +1,8 @@
-'use client'
-
 import * as React from 'react'
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
 import { oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism'
 import { Copy, Check } from 'lucide-react'
+import { Button } from '@/components/ui/button'
 
 interface CodeBlockProps {
   language: string
@@ -24,21 +23,23 @@ export default function CodeBlock({ language, value }: CodeBlockProps): React.JS
   }
 
   return (
-    <div dir="ltr" className="group/code my-3 overflow-hidden rounded-xl border border-border bg-[#0c0a16]">
-      <div className="flex items-center justify-between border-b border-border bg-[#120e22] px-3 py-1.5 text-xs text-muted-foreground">
+    <div dir="ltr" className="group/code my-3 overflow-hidden rounded-lg border border-border bg-zinc-950/40">
+      <div className="flex items-center justify-between border-b border-border bg-zinc-900/60 px-3 py-1.5 text-xs text-muted-foreground">
         <span className="font-mono lowercase">{language || 'code'}</span>
-        <button
+        <Button
+          variant="ghost"
+          size="sm"
           onClick={copy}
-          className="flex items-center gap-1 rounded-md px-2 py-1 transition hover:bg-white/5 hover:text-foreground"
+          className="h-7 gap-1 rounded px-2 text-[10px] text-muted-foreground hover:bg-zinc-800 hover:text-foreground"
           aria-label="Copy code"
         >
           {copied ? (
-            <Check className="h-3.5 w-3.5 text-green-400" aria-hidden="true" />
+            <Check className="h-3 w-3 text-green-500" aria-hidden="true" />
           ) : (
-            <Copy className="h-3.5 w-3.5" aria-hidden="true" />
+            <Copy className="h-3 w-3" aria-hidden="true" />
           )}
           <span>{copied ? 'تم النسخ' : 'نسخ'}</span>
-        </button>
+        </Button>
       </div>
       <SyntaxHighlighter
         language={language}
@@ -47,7 +48,7 @@ export default function CodeBlock({ language, value }: CodeBlockProps): React.JS
           margin: 0,
           background: 'transparent',
           padding: '1rem',
-          fontSize: '0.85rem',
+          fontSize: '0.8rem',
         }}
         codeTagProps={{ style: { fontFamily: 'ui-monospace, SFMono-Regular, Menlo, monospace' } }}
         wrapLongLines

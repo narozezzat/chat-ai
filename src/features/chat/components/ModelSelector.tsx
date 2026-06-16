@@ -19,18 +19,18 @@ interface ModelSelectorProps {
 export function ModelSelector({ value, onChange }: ModelSelectorProps): React.JSX.Element {
   return (
     <Select value={value} onValueChange={onChange}>
-      <SelectTrigger className="flex h-11 w-full items-center justify-between gap-2.5 rounded-xl border border-border bg-card px-3 py-2.5 text-sm font-medium shadow-none outline-none transition hover:border-primary/40 hover:bg-muted/30 focus:ring-0 focus:ring-offset-0 focus-visible:ring-0">
+      <SelectTrigger className="flex h-10 w-full items-center justify-between gap-2.5 rounded-lg border border-border bg-zinc-900/30 px-3 py-2 text-xs font-medium shadow-none outline-hidden transition hover:bg-zinc-900/80 focus:ring-0 focus:ring-offset-0 focus-visible:ring-0">
         <div className="flex items-center gap-2">
-          <Sparkles className="h-4 w-4 text-purple-400" aria-hidden="true" />
+          <Sparkles className="h-3.5 w-3.5 text-zinc-400" aria-hidden="true" />
           <SelectValue placeholder="اختر نموذج" />
         </div>
       </SelectTrigger>
-      <SelectContent className="w-full min-w-(--radix-select-trigger-width) max-h-[300px] overflow-y-auto rounded-xl border border-border bg-popover shadow-2xl">
+      <SelectContent className="w-full min-w-(--radix-select-trigger-width) max-h-[300px] overflow-y-auto rounded-lg border border-border bg-zinc-950 shadow-md">
         {MODELS.map((m) => (
           <SelectItem
             key={m.id}
             value={m.id}
-            className="cursor-pointer"
+            className="cursor-pointer text-xs"
           >
             {m.label}
           </SelectItem>

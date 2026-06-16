@@ -3,6 +3,7 @@
 import * as React from 'react'
 import { EFFORT_LEVELS } from '@/lib/uiConfig'
 import type { Effort } from '@/lib/types'
+import { Button } from '@/components/ui/button'
 
 interface EffortSelectorProps {
   value: Effort
@@ -12,21 +13,25 @@ interface EffortSelectorProps {
 export function EffortSelector({ value, onChange }: EffortSelectorProps): React.JSX.Element {
   return (
     <div className="flex flex-col gap-1.5">
-      <span className="text-xs font-semibold text-muted-foreground">مستوى التفكير</span>
-      <div className="flex rounded-xl border border-border bg-card p-1">
+      <span className="text-xs font-semibold text-muted-foreground/60">مستوى التفكير</span>
+      <div className="flex rounded-lg border border-border bg-zinc-900/30 p-1">
         {EFFORT_LEVELS.map((lvl) => {
           const active = lvl.id === value
           return (
-            <button
+            <Button
               key={lvl.id}
+              variant={active ? "secondary" : "ghost"}
+              size="sm"
               onClick={() => onChange(lvl.id)}
               aria-pressed={active}
-              className={`flex-1 rounded-lg py-1.5 text-xs font-medium transition ${
-                active ? 'bg-primary text-primary-foreground shadow' : 'text-muted-foreground hover:text-foreground'
+              className={`flex-1 rounded-md py-1 h-7 text-[11px] font-medium transition-all ${
+                active
+                  ? 'bg-zinc-800 text-foreground shadow-xs border border-zinc-700/30'
+                  : 'text-muted-foreground hover:text-foreground hover:bg-transparent'
               }`}
             >
               {lvl.label}
-            </button>
+            </Button>
           )
         })}
       </div>

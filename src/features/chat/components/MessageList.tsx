@@ -1,9 +1,8 @@
-'use client'
-
 import * as React from 'react'
 import { MessageItem } from '@/features/chat/components/MessageItem'
 import { Sparkles } from 'lucide-react'
 import type { UIMessage } from '@/lib/types'
+import { Button } from '@/components/ui/button'
 
 interface MessageListProps {
   messages: UIMessage[]
@@ -20,24 +19,25 @@ const SUGGESTIONS = [
 
 function EmptyState({ onSuggest }: { onSuggest: (text: string) => void }): React.JSX.Element {
   return (
-    <div className="mx-auto flex h-full w-full max-w-2xl flex-col items-center justify-center px-4 py-12 text-center md:py-0">
-      <div className="mb-6 flex h-14 w-14 items-center justify-center rounded-2xl bg-linear-to-br from-primary to-purple-600 shadow-xl shadow-primary/20">
-        <Sparkles className="h-6 w-6 text-white" aria-hidden="true" />
+    <div className="mx-auto flex h-full w-full max-w-2xl flex-col items-center justify-center px-4 py-16 text-center md:py-0">
+      <div className="mb-6 flex h-12 w-12 items-center justify-center rounded-lg border border-border bg-zinc-900/60 shadow-xs">
+        <Sparkles className="h-5 w-5 text-zinc-200" aria-hidden="true" />
       </div>
-      <h1 className="text-xl font-bold tracking-tight sm:text-2xl">أهلاً بك في استوديو الدردشة</h1>
-      <p className="mt-2.5 max-w-md text-xs text-muted-foreground sm:text-sm">
+      <h1 className="text-lg font-semibold tracking-tight text-foreground">أهلاً بك في استوديو الدردشة</h1>
+      <p className="mt-2 max-w-sm text-xs text-muted-foreground/80 leading-relaxed">
         تحدّث مع أحدث نماذج الذكاء الاصطناعي — اختر النموذج ومستوى التفكير، وابدأ المحادثة.
       </p>
 
-      <div className="mt-8 flex w-full flex-wrap justify-center gap-2.5 sm:grid sm:grid-cols-2">
+      <div className="mt-8 flex w-full flex-wrap justify-center gap-2.5 sm:grid sm:grid-cols-2 max-w-md">
         {SUGGESTIONS.map((s) => (
-          <button
+          <Button
             key={s}
+            variant="outline"
             onClick={() => onSuggest(s)}
-            className="flex-1 min-w-[140px] whitespace-normal rounded-xl border border-border bg-card/40 px-3 py-2.5 text-start text-xs text-muted-foreground shadow-sm backdrop-blur-md transition hover:border-primary/50 hover:bg-card hover:text-foreground hover:shadow-md"
+            className="h-auto whitespace-normal rounded-lg border border-border bg-zinc-900/20 px-3.5 py-3 text-start text-xs text-muted-foreground hover:bg-zinc-800/40 hover:text-foreground hover:border-zinc-700 transition-all flex justify-start items-center"
           >
             {s}
-          </button>
+          </Button>
         ))}
       </div>
     </div>

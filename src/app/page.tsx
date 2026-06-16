@@ -114,19 +114,19 @@ export default function RootPage(): React.JSX.Element {
       {/* Main chat window viewport */}
       <div className="flex flex-1 flex-col overflow-hidden relative animate-in fade-in duration-300">
         {/* Top Header navbar */}
-        <header className="sticky top-0 z-20 flex h-16 w-full items-center justify-between border-b border-border/40 bg-card/30 backdrop-blur-md px-4 shrink-0">
+        <header className="sticky top-0 z-20 flex h-16 w-full items-center justify-between border-b border-border/40 bg-zinc-950/20 backdrop-blur-md px-4 shrink-0">
           <div className="flex items-center gap-2.5">
             <Button
               variant="ghost"
               size="icon"
-              className="flex h-9 w-9 items-center justify-center rounded-xl bg-card border border-border/80 hover:bg-muted md:hidden"
+              className="flex h-9 w-9 items-center justify-center rounded-lg bg-zinc-900/30 border border-border hover:bg-zinc-800 md:hidden"
               onClick={() => setSidebarOpen(true)}
               aria-label="افتح القائمة الجانبية"
             >
-              <Menu className="h-5 w-5" />
+              <Menu className="h-5 w-5" aria-hidden="true" />
             </Button>
             <div className="flex items-center gap-2">
-              <span dir="auto" className="text-sm font-bold tracking-tight text-foreground md:text-base">
+              <span dir="auto" className="text-sm font-semibold tracking-tight text-foreground md:text-base">
                 {activeSession?.title || 'محادثة جديدة'}
               </span>
             </div>
@@ -136,11 +136,11 @@ export default function RootPage(): React.JSX.Element {
             <Button
               variant="ghost"
               size="icon"
-              className="h-9 w-9 rounded-xl border border-border/80 bg-card hover:bg-muted md:flex hidden"
+              className="h-9 w-9 rounded-lg border border-border bg-zinc-900/30 hover:bg-zinc-800 md:flex hidden"
               onClick={handleNewChat}
               aria-label="محادثة جديدة"
             >
-              <Plus className="h-4 w-4" />
+              <Plus className="h-4 w-4" aria-hidden="true" />
             </Button>
           </div>
         </header>
