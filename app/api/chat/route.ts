@@ -104,7 +104,8 @@ export async function POST(req: Request): Promise<Response> {
       let lastError: unknown
 
       try {
-        for (const currentModel of modelsToTry) {
+        for (let index = 0; index < modelsToTry.length; index += 1) {
+          const currentModel = modelsToTry[index]
           try {
             for await (const text of streamChat({
               modelConfig: currentModel,
@@ -121,12 +122,16 @@ export async function POST(req: Request): Promise<Response> {
             lastError = err
             if (req.signal.aborted) return
 
+            const nextModel = modelsToTry[index + 1]
             const canTryFallback =
-              !emittedText && currentModel.provider === 'gemini' && isRateLimitError(err)
+              Boolean(nextModel) &&
+              !emittedText &&
+              currentModel.provider === 'gemini' &&
+              isRateLimitError(err)
             if (!canTryFallback) break
 
             console.warn(
-              `[chat] ${currentModel.id} hit a Gemini quota limit; trying fallback model.`,
+              `[chat] ${currentModel.id} hit a Gemini quota limit; trying ${nextModel.id}.`,
             )
           }
         }
