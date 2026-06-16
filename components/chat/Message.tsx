@@ -1,8 +1,8 @@
 'use client'
 
 import { useState } from 'react'
-import Markdown from './Markdown'
-import { CopyIcon, CheckIcon, SparkleIcon, UserIcon } from './Icons'
+import Markdown from '@/components/ui/Markdown'
+import { CopyIcon, CheckIcon, SparkleIcon, UserIcon } from '@/components/ui/Icons'
 
 interface MessageProps {
   role: 'user' | 'assistant'

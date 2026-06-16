@@ -4,9 +4,10 @@ import { useRef, useState } from 'react'
 import { DEFAULT_MODEL_ID } from '@/lib/uiConfig'
 import { streamChat } from '@/lib/chatClient'
 import type { Effort, UIMessage } from '@/lib/types'
-import Header from '@/components/Header'
-import MessageList from '@/components/MessageList'
-import ChatInput from '@/components/ChatInput'
+import Header from '@/components/layout/Header'
+import Sidebar from '@/components/layout/Sidebar'
+import MessageList from '@/components/chat/MessageList'
+import ChatInput from '@/components/chat/ChatInput'
 
 export default function Page() {
   const [model, setModel] = useState<string>(DEFAULT_MODEL_ID)
@@ -14,6 +15,7 @@ export default function Page() {
   const [messages, setMessages] = useState<UIMessage[]>([])
   const [input, setInput] = useState('')
   const [isStreaming, setIsStreaming] = useState(false)
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false)
   const abortRef = useRef<AbortController | null>(null)
 
   async function handleSend(text: string, images: string[]) {
@@ -73,30 +75,37 @@ export default function Page() {
     abortRef.current?.abort()
     setMessages([])
     setInput('')
+    if (window.innerWidth < 768) setIsSidebarOpen(false)
   }
 
   return (
-    <div className="relative z-10 flex h-dvh flex-col">
-      <Header
+    <div className="relative z-10 flex h-dvh overflow-hidden bg-night">
+      <Sidebar
+        isOpen={isSidebarOpen}
+        onClose={() => setIsSidebarOpen(false)}
+        onNewChat={handleNewChat}
+        hasMessages={messages.length > 0}
         model={model}
         onModel={setModel}
         effort={effort}
         onEffort={setEffort}
-        onNewChat={handleNewChat}
-        hasMessages={messages.length > 0}
       />
 
-      <main className="flex-1 overflow-y-auto">
-        <MessageList messages={messages} isStreaming={isStreaming} onSuggest={setInput} />
-      </main>
+      <div className="flex flex-1 flex-col overflow-hidden relative">
+        <Header onOpenSidebar={() => setIsSidebarOpen(true)} onNewChat={handleNewChat} />
 
-      <ChatInput
-        value={input}
-        onChange={setInput}
-        onSend={handleSend}
-        onStop={handleStop}
-        isStreaming={isStreaming}
-      />
+        <main className="flex-1 overflow-y-auto scroll-smooth">
+          <MessageList messages={messages} isStreaming={isStreaming} onSuggest={setInput} />
+        </main>
+
+        <ChatInput
+          value={input}
+          onChange={setInput}
+          onSend={handleSend}
+          onStop={handleStop}
+          isStreaming={isStreaming}
+        />
+      </div>
     </div>
   )
 }

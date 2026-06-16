@@ -5,16 +5,16 @@
 /*  (e.g. bg-base, text-accent, border-border).                        */
 /* ------------------------------------------------------------------ */
 @theme {
-  --color-night: #0f0a1e; /* deep dark purple-black background */
-  --color-surface: #171128; /* cards / assistant bubbles */
-  --color-surface-2: #1f1733; /* raised surfaces / inputs */
-  --color-border: #2c2444;
+  --color-night: #0b0716; /* deeper dark purple-black background for contrast */
+  --color-surface: #140e24; /* cards / assistant bubbles */
+  --color-surface-2: #1e1536; /* raised surfaces / inputs */
+  --color-border: #281d42;
   --color-accent: #7c3aed; /* primary purple */
-  --color-accent-2: #a78bfa; /* lighter secondary purple */
+  --color-accent-2: #9333ea; /* secondary purple (fuchsia tint) */
   --color-ink: #ffffff; /* primary text */
-  --color-muted: #b9b2cf; /* secondary text */
+  --color-muted: #a79fc2; /* secondary text */
 
-  --font-sans: 'Inter', system-ui, -apple-system, 'Segoe UI', Tahoma, sans-serif;
+  --font-sans: var(--font-cairo), system-ui, -apple-system, 'Segoe UI', Tahoma, sans-serif;
 }
 
 html,
@@ -31,14 +31,14 @@ body {
   text-rendering: optimizeLegibility;
 }
 
-/* Soft ambient brand glow behind everything */
+/* Soft ambient brand glow behind everything - enhanced for glassmorphism */
 body::before {
   content: '';
   position: fixed;
   inset: 0;
   background:
-    radial-gradient(60rem 40rem at 80% -10%, rgba(124, 58, 237, 0.18), transparent 60%),
-    radial-gradient(48rem 30rem at 0% 100%, rgba(167, 139, 250, 0.12), transparent 60%);
+    radial-gradient(50rem 50rem at 80% -20%, rgba(124, 58, 237, 0.15), transparent 70%),
+    radial-gradient(40rem 40rem at -10% 110%, rgba(147, 51, 234, 0.15), transparent 70%);
   pointer-events: none;
   z-index: 0;
 }

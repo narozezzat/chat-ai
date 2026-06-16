@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react'
 import { MODELS } from '@/lib/uiConfig'
-import { ChevronDownIcon, CheckIcon, SparkleIcon } from './Icons'
+import { ChevronDownIcon, CheckIcon, SparkleIcon } from '@/components/ui/Icons'
 
 interface ModelSelectorProps {
   value: string
@@ -42,7 +42,7 @@ export default function ModelSelector({ value, onChange }: ModelSelectorProps) {
       </button>
 
       {open && (
-        <div className="absolute z-30 mt-2 w-56 overflow-hidden rounded-xl border border-border bg-surface-2 p-1 shadow-2xl shadow-black/50 end-0">
+        <div className="absolute z-30 mt-2 w-56 overflow-hidden rounded-xl border border-border bg-surface-2 p-1 shadow-2xl shadow-black/50 inset-e-0">
           {MODELS.map((m) => {
             const active = m.id === value
             return (
@@ -52,9 +52,8 @@ export default function ModelSelector({ value, onChange }: ModelSelectorProps) {
                   onChange(m.id)
                   setOpen(false)
                 }}
-                className={`flex w-full items-center justify-between gap-2 rounded-lg px-3 py-2 text-sm transition ${
-                  active ? 'bg-accent/15 text-ink' : 'text-muted hover:bg-white/5 hover:text-ink'
-                }`}
+                className={`flex w-full items-center justify-between gap-2 rounded-lg px-3 py-2 text-sm transition ${active ? 'bg-accent/15 text-ink' : 'text-muted hover:bg-white/5 hover:text-ink'
+                  }`}
               >
                 <span>{m.label}</span>
                 {active && <CheckIcon className="h-4 w-4 text-accent-2" />}

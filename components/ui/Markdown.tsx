@@ -2,7 +2,7 @@
 
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
-import CodeBlock from './CodeBlock'
+import CodeBlock from '@/components/ui/CodeBlock'
 
 // Renders assistant messages as Markdown (GitHub-flavored), with code fences
 // upgraded to highlighted, copyable code blocks.
