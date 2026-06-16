@@ -28,12 +28,21 @@ interface ChatState {
 
 export const useChatStore = create<ChatState>()(
   persist(
-    (set) => ({
+    (set, get) => ({
       sessions: [],
       activeSessionId: null,
       isStreaming: false,
 
       createSession: (modelId, effort, title) => {
+        // If the current active session is already empty, reuse it instead of creating a duplicate
+        const currentState = get()
+        const activeSession = currentState.sessions.find(
+          (s) => s.id === currentState.activeSessionId
+        )
+        if (activeSession && activeSession.messages.length === 0) {
+          return activeSession.id
+        }
+
         const id = crypto.randomUUID()
         const newSession: ChatSession = {
           id,
@@ -43,8 +52,9 @@ export const useChatStore = create<ChatState>()(
           effort,
           createdAt: Date.now(),
         }
+        // Remove any other empty sessions before adding the new one
         set((state) => ({
-          sessions: [newSession, ...state.sessions],
+          sessions: [newSession, ...state.sessions.filter((s) => s.messages.length > 0)],
           activeSessionId: id,
         }))
         return id
@@ -110,6 +120,11 @@ export const useChatStore = create<ChatState>()(
     }),
     {
       name: 'ai-studio-chat-store',
+      // Only persist sessions that have at least one message
+      partialize: (state) => ({
+        ...state,
+        sessions: state.sessions.filter((s) => s.messages.length > 0),
+      }),
     }
   )
 )

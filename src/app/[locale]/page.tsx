@@ -41,11 +41,12 @@ export default function RootPage(): React.JSX.Element {
     return title
   }
 
+  // Create an initial in-memory session on first mount only.
+  // It won't be persisted to localStorage until the user sends a message.
   React.useEffect(() => {
-    if (sessions.length === 0) {
-      createSession(DEFAULT_MODEL_ID, 'medium', 'new_chat')
-    }
-  }, [sessions, createSession])
+    createSession(DEFAULT_MODEL_ID, 'medium', 'new_chat')
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   const activeSession = sessions.find((s) => s.id === activeSessionId) || sessions[0]
 
